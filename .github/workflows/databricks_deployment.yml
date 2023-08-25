@@ -12,13 +12,13 @@ on:
         type: string
         required: true
     
-  secrets:
-    DATABRICKS_HOST:
-      description:   'Databricks workspace URL'
-      required: true
-    DATABRICKS_TOKEN:
-      description: 'Access token for Databricks CLI'
-      required: true
+  #secrets:
+  #  DATABRICKS_HOST:
+  #    description:   'Databricks workspace URL'
+  #    required: true
+  #  DATABRICKS_TOKEN:
+  #    description: 'Access token for Databricks CLI'
+  #    required: true
 
 jobs:
   push_to_db:
