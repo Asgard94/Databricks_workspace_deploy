@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "action": "deploy",
+        "type": "notebook-scala",
+        "name": "slack_msg",
+        "folder": "/Shared/TEST_INTEGRATION/TEST_CONN_01/"
+    }
+]
