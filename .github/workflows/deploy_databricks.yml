@@ -13,5 +13,5 @@ jobs:
       databricks_code_path: "./util/deploy"
       service_code_file: "notebook.json"
     secrets:
-      DATABRICKS_HOST_URL: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
