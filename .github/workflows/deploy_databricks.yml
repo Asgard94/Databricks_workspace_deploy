@@ -2,7 +2,8 @@ name: Databricks Deployment
 
 on: 
   push:
-    branches: [ develop ]
+    branches: 
+      - develop
 
 jobs:
   deploy_notebooks:
