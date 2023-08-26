@@ -1,7 +1,7 @@
 [
     {
         "action": "deploy",
-        "type": "notebook-scala",
+        "type": "python",
         "name": "slack_msg",
         "folder": "/Shared/TEST_INTEGRATION/TEST_CONN_01/"
     }

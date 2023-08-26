@@ -1,0 +1,62 @@
+name: Notebook Deployment - Databricks
+on:
+  workflow_call:
+    inputs:
+      databricks_code_path:
+        description: Databricks Service Path
+        type: string
+        required: true
+      
+      service_code_file:
+        description: code file path
+        type: string
+        required: true
+    
+    secrets:
+      DATABRICKS_HOST:
+        description:   'Databricks workspace URL'
+        required: true
+      DATABRICKS_TOKEN:
+        description: 'Access token for Databricks CLI'
+        required: true
+
+jobs:
+  push_to_db:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v3.3.0
+      
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Databricks CLI config
+        run: |
+            pip install databricks-cli 
+            cat > ~/.databrickscfg << EOF 
+            [DEFAULT] 
+            host = ${{ secrets.DATABRICKS_HOST }} 
+            token = ${{ secrets.DATABRICKS_TOKEN }} 
+            jobs-api-version = 2.1 
+            EOF 
+
+      - name: Install required libraries
+        run: sudo apt install -y jq
+      - name: Deploy code to databricks workspace
+        run: 
+        run: |
+            file=${{ inputs.service_code_file }}${{ inputs.databricks_code_path }}
+            jq -c -r '.[]' $file | while read js_object; do 
+              val_action=$(jq -r '.action' <<< "$js_object")
+              val_type=$(jq -r '.type' <<< "$js_object")
+              val_name=$(jq -r '.name' <<< "$js_object")
+              val_folder=$(jq -r '.folder' <<< "$js_object")
+
+              echo "Item: $val_folder, $val_name, $val_type"
+
+              databricks workspace import ./src/deploy/$val_type/$val_name $val_folder --language $val_type --overwrite
+            done
+            
