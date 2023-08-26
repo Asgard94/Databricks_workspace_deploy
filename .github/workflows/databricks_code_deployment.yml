@@ -36,12 +36,12 @@ jobs:
       - name: Databricks CLI config
         run: |
             pip install databricks-cli 
-            cat > ~/.databrickscfg << EOF 
+            cat > ~/.databrickscfg << EOF
             [DEFAULT] 
             host = ${{ secrets.DATABRICKS_HOST }} 
             token = ${{ secrets.DATABRICKS_TOKEN }} 
             jobs-api-version = 2.1 
-            EOF 
+            EOF
 
       - name: Install required libraries
         run: sudo apt install -y jq
