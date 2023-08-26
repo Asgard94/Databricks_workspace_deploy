@@ -46,7 +46,6 @@ jobs:
       - name: Install required libraries
         run: sudo apt install -y jq
       - name: Deploy code to databricks workspace
-        run: 
         run: |
             file=${{ inputs.service_code_file }}${{ inputs.databricks_code_path }}
             jq -c -r '.[]' $file | while read js_object; do 
