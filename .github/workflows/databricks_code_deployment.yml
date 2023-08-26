@@ -47,7 +47,7 @@ jobs:
         run: sudo apt install -y jq
       - name: Deploy code to databricks workspace
         run: |
-            file=${{ inputs.databricks_code_path }}${{ inputs.service_code_file }}
+            file=${{ inputs.databricks_code_path }}/${{ inputs.service_code_file }}
             jq -c -r '.[]' $file | while read js_object; do 
               val_action=$(jq -r '.action' <<< "$js_object")
               val_type=$(jq -r '.type' <<< "$js_object")
