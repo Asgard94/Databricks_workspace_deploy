@@ -48,7 +48,7 @@ jobs:
 
       - name: Check folder paths in databricks workspace
         run: |
-            bash ./util/deploy/deploy.sh -db_path ${{ inputs.databricks_code_path }} -db_file ${{ inputs.service_code_file }}        
+            bash ./util/deploy/deploy.sh -db_path "${{ inputs.databricks_code_path }}" -db_file "${{ inputs.service_code_file }}"
 
       - name: Deploy code to databricks workspace
         run: |
