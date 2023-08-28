@@ -4,8 +4,8 @@ while [[ "$#" -gt 0 ]]
 do 
     case "${option}"
         in
-        db_path)databricks_code_path="$2"; shift;;
-        db_file)service_code_file="$2"; shift;;
+        --db_path)databricks_code_path="$2"; shift;;
+        --db_file)service_code_file="$2"; shift;;
     esac
 done
 
