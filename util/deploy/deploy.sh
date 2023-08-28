@@ -9,8 +9,8 @@ do
     esac
 done
 
-echo "Databricks input code : $db_path"
-echo "File config path   : $db_file"
+echo "Databricks input code : $databricks_code_path"
+echo "File config path   : $service_code_file"
 
 
 file=$databricks_code_path/$service_code_file  
