@@ -19,3 +19,11 @@ on:
       DATABRICKS_TOKEN:
         description: 'Access token for Databricks CLI'
         required: true
+
+jobs:
+  push_to_db:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v3.3.0
