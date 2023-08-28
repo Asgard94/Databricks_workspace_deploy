@@ -47,7 +47,8 @@ jobs:
         run: sudo apt install -y jq
 
       - name: Check folder paths in databricks workspace
-        run: |            
+        run: |
+            file=${{ inputs.databricks_code_path }}/${{ inputs.service_code_file }}        
             jq -c -r '.[]' $file | while read js_object; do 
               var_folder_path=$(jq -r '.folder_path' <<< "$js_object")
 
