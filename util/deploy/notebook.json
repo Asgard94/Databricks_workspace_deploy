@@ -1,8 +1,9 @@
 [
     {
         "action": "deploy",
-        "type": "python",
-        "name": "slack_msg",
-        "folder": "/Shared/TEST_INTEGRATION/TEST_CONN_01"
+        "file_type": "python",
+        "file_extension": ".py",
+        "file_name": "slack_msg",
+        "folder_path": "/Shared/TEST_INTEGRATION/TEST_CONN_01"
     }
 ]

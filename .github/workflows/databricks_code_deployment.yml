@@ -45,17 +45,19 @@ jobs:
 
       - name: Install required libraries
         run: sudo apt install -y jq
+
       - name: Deploy code to databricks workspace
         run: |
             file=${{ inputs.databricks_code_path }}/${{ inputs.service_code_file }}
             jq -c -r '.[]' $file | while read js_object; do 
               val_action=$(jq -r '.action' <<< "$js_object")
-              val_type=$(jq -r '.type' <<< "$js_object")
-              val_name=$(jq -r '.name' <<< "$js_object")
-              val_folder=$(jq -r '.folder' <<< "$js_object")
+              val_file_type=$(jq -r '.file_type' <<< "$js_object")
+              val_file_extension=$(jq -r '.file_extension' <<< "$js_object")
+              val_file_name=$(jq -r '.file_name' <<< "$js_object")
+              val_folder_path=$(jq -r '.folder_path' <<< "$js_object")
 
-              echo "Item: $val_folder, $val_name, $val_type"
+              echo "Item: $val_folder_path, $val_file_name, $val_file_type"
 
-              databricks workspace import ./src/deploy/$val_type/$val_name $val_folder/$val_name --language $val_type --overwrite
+              databricks workspace import ./src/deploy/$val_file_type/$val_file_name$val_file_extension $val_folder_path/$val_file_name --language $val_file_type --overwrite
             done
             
