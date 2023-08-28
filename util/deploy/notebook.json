@@ -4,5 +4,11 @@
         "type": "python",
         "name": "slack_msg.py",
         "folder": "/Shared/TEST_INTEGRATION/TEST_CONN_01/slack_msg"
+    },
+    {
+        "action": "deploy",
+        "type": "python",
+        "name": "slack_msg.py",
+        "folder": "/Shared/TEST_INTEGRATION/TEST_CONN_02/slack_msg"
     }
 ]
