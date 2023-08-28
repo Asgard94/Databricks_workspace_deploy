@@ -52,16 +52,16 @@ jobs:
             jq -c -r '.[]' $file | while read js_object; do 
               var_folder_path=$(jq -r '.folder_path' <<< "$js_object")
 
-              echo "Item: $val_folder_path"
+              echo "Item: $var_folder_path"
 
-              var_output=$(databricks workspace ls $val_folder_path --absolute)
+              var_output=$(databricks workspace ls $var_folder_path --absolute)
 
               if [[ "$output" == *"RESOURCE_DOES_NOT_EXIST"* ]]
               then
-                echo "Folder $val_folder_path not found. Proceeding to create it..."
-                databricks workspace mkdirs $val_folder_path
+                echo "Folder $var_folder_path not found. Proceeding to create it..."
+                databricks workspace mkdirs $var_folder_path
               else
-                echo "Folder $val_folder_path already exists"
+                echo "Folder $var_folder_path already exists"
               fi              
             done
 
