@@ -56,7 +56,7 @@ jobs:
 
               var_output=$(databricks workspace ls $var_folder_path --absolute)
 
-              if [[ "$output" == *"RESOURCE_DOES_NOT_EXIST"* ]]
+              if [[ "$var_output" == *"RESOURCE_DOES_NOT_EXIST"* ]]
               then
                 echo "Folder $var_folder_path not found. Proceeding to create it..."
                 databricks workspace mkdirs $var_folder_path
