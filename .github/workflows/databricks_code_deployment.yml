@@ -55,6 +55,7 @@ jobs:
               echo "Item: $var_folder_path"
 
               var_output=$(databricks workspace ls $var_folder_path --absolute)
+              echo $var_output
 
               if [[ "$var_output" == *"RESOURCE_DOES_NOT_EXIST"* ]]
               then
