@@ -56,6 +56,6 @@ jobs:
 
               echo "Item: $val_folder, $val_name, $val_type"
 
-              databricks workspace import ./src/deploy/$val_type/$val_name $val_folder --language $val_type --overwrite
+              databricks workspace import ./src/deploy/$val_type/$val_name $val_folder/$val_name --language $val_type --overwrite
             done
             
