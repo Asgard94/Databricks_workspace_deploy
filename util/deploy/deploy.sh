@@ -2,11 +2,11 @@
 
 while [[ "$#" -gt 0 ]]
 do 
-    case "${option}"
-        in
+    case $1 in
         --db_path)databricks_code_path="$2"; shift;;
         --db_file)service_code_file="$2"; shift;;
     esac
+    shift
 done
 
 echo "Databricks input code : $databricks_code_path"
