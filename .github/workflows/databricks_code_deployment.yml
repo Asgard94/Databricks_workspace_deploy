@@ -46,22 +46,11 @@ jobs:
       - name: Install required libraries
         run: sudo apt install -y jq
 
-      - name: Check folder paths in databricks workspace
+      - name: Check and deploy folder paths in databricks workspace
         run: |
-            bash ./util/deploy/deploy.sh --db_path "${{ inputs.databricks_code_path }}" --db_file "${{ inputs.service_code_file }}"
+            bash ./util/deploy/deploy.sh --dep_type "workspace" --dtb_path "${{ inputs.databricks_code_path }}" --dtb_file "${{ inputs.service_code_file }}"
 
       - name: Deploy code to databricks workspace
         run: |
-            file=${{ inputs.databricks_code_path }}/${{ inputs.service_code_file }}
-            jq -c -r '.[]' $file | while read js_object; do 
-              var_action=$(jq -r '.action' <<< "$js_object")
-              var_file_type=$(jq -r '.file_type' <<< "$js_object")
-              var_file_extension=$(jq -r '.file_extension' <<< "$js_object")
-              var_file_name=$(jq -r '.file_name' <<< "$js_object")
-              var_folder_path=$(jq -r '.folder_path' <<< "$js_object")
-
-              echo "Item: $var_folder_path, $var_file_name, $var_file_type"
-
-              databricks workspace import ./src/deploy/$var_file_type/$var_file_name$var_file_extension $var_folder_path/$var_file_name --language $var_file_type --overwrite
-            done
+            bash ./util/deploy/deploy.sh --dep_type "code" --dtb_path "${{ inputs.databricks_code_path }}" --dtb_file "${{ inputs.service_code_file }}"
             
