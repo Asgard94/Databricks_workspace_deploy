@@ -1,6 +1,6 @@
 name: Notebook Deployment - Databricks
 on:
-  workflow_call:
+  [workflow_call, workflow_dispatch]:
     inputs:
       databricks_code_path:
         description: Databricks Service Path
