@@ -1,0 +1,17 @@
+name: Databricks Deployment
+
+on: 
+  push:
+    branches: 
+      - develop
+
+jobs:
+  deploy_notebooks:
+    name: Deploy notebooks to corresponding directories
+    uses: ./.github/workflows/databricks_code_deployment.yml
+    with:
+      databricks_code_path: "./util/deploy"
+      service_code_file: "notebook.json"
+    secrets:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}

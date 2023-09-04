@@ -1,0 +1,29 @@
+name: Jop Deployment - Databricks
+on:
+  workflow_call:
+    inputs:
+      databricks_code_path:
+        description: Databricks Service Path
+        type: string
+        required: true
+      
+      service_code_file:
+        description: code file path
+        type: string
+        required: true
+    
+    secrets:
+      DATABRICKS_HOST:
+        description:   'Databricks workspace URL'
+        required: true
+      DATABRICKS_TOKEN:
+        description: 'Access token for Databricks CLI'
+        required: true
+
+jobs:
+  push_to_db:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v3.3.0
