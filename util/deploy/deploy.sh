@@ -58,7 +58,9 @@ function code_deploy(){
     echo "########## End of code deployment ##########"
 }
 
+########### Check and Deploy new/existing jobs ###########
 function job_check(){
+    echo "########## Check existing jobs by given name ##########"
     while [[ "$#" -gt 0 ]]
     do 
         case $1 in
@@ -67,18 +69,31 @@ function job_check(){
         shift
     done
 
-    var_jobs=$(databricks jobs list)
+    var_jobs=$(databricks jobs get --job-name $job_name)
     for value in "${var_jobs[@]}"
     do
     echo "Job Name: $value"
     done
 }
 
+function job_deploy(){
+    echo "########## Initiating job deployment ##########"
+    # Iterate over json array from config file
+    jq -c -r '.[]' $file | while read js_object; do 
+        var_name=$(jq -r '.name' <<< "$js_object")
+
+        echo "Item: $var_name"
+
+        job_check -n $var_name
+    done
+    echo "########## End of job deployment ##########"
+}
+
 ########### Call a function according to deploy type parameter ###########
 if [ "$deploy_type" = "code" ]; then
     code_deploy
 elif [ "$deploy_type" = "jobs" ]; then
-    job_check
+    job_deploy
 else
     workspace_deploy
 fi
