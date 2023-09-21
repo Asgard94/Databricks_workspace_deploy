@@ -114,7 +114,7 @@ function job_check(){
         done
     fi
 
-    job_create_update -s ${#id_array[@]} -d $job_definition
+    job_create_update -s "${#id_array[@]}" -d $job_definition
 }
 
 function job_deploy(){
@@ -126,8 +126,6 @@ function job_deploy(){
         echo "Item: $var_name"
 
         job_check -n $var_name -d $js_object
-
-        echo "job def: $js_object"
     done
     echo "########## End of job deployment ##########"
 }
