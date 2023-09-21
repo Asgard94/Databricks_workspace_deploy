@@ -17,7 +17,7 @@ jobs:
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
   
   deploy_jobs:
-    name: Deploy notebooks to corresponding directories
+    name: Deploy jobs
     uses: ./.github/workflows/databricks_job_deployment.yml
     with:
       databricks_code_path: "./util/deploy/jobs"
