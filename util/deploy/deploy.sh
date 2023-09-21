@@ -77,7 +77,7 @@ function job_check(){
     echo "Job Name: $value"
     done
 
-    curl  -H "Authorization: Bearer ${databricks_token}" "${databricks_host}/api/2.1/jobs/list?name=${job_name}" > jobslist.txt
+    curl -H "Authorization: Bearer ${databricks_token}" "${databricks_host}/api/2.1/jobs/list?name=${job_name}" > jobslist.txt
     cat  jobslist.txt | jq '.jobs[0].job_id'
 }
 
