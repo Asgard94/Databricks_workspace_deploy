@@ -58,9 +58,27 @@ function code_deploy(){
     echo "########## End of code deployment ##########"
 }
 
+function job_check(){
+    while [[ "$#" -gt 0 ]]
+    do 
+        case $1 in
+            -n|--name)job_name="$2"; shift;;
+        esac
+        shift
+    done
+
+    var_jobs=$(databricks jobs list)
+    for value in "${var_jobs[@]}"
+    do
+    echo "Job Name: $value"
+    done
+}
+
 ########### Call a function according to deploy type parameter ###########
 if [ "$deploy_type" = "code" ]; then
     code_deploy
+elif [ "$deploy_type" = "jobs" ]; then
+    job_check
 else
     workspace_deploy
 fi

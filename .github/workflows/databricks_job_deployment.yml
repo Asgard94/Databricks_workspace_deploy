@@ -19,6 +19,26 @@ on:
       DATABRICKS_TOKEN:
         description: 'Access token for Databricks CLI'
         required: true
+  
+  workflow_dispatch:
+    inputs:
+      databricks_code_path:
+        description: Databricks Service Path
+        type: string
+        required: true
+      
+      service_code_file:
+        description: code file path
+        type: string
+        required: true
+    
+    secrets:
+      DATABRICKS_HOST:
+        description:   'Databricks workspace URL'
+        required: true
+      DATABRICKS_TOKEN:
+        description: 'Access token for Databricks CLI'
+        required: true
 
 jobs:
   push_to_db:
@@ -27,3 +47,25 @@ jobs:
     steps:
       - name: Checkout current repository
         uses: actions/checkout@v3.3.0
+      
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Databricks CLI config
+        run: |
+            pip install databricks-cli 
+            cat > ~/.databrickscfg << EOF
+            [DEFAULT] 
+            host = ${{ secrets.DATABRICKS_HOST }} 
+            token = ${{ secrets.DATABRICKS_TOKEN }} 
+            jobs-api-version = 2.1 
+            EOF
+
+      - name: Install required libraries
+        run: sudo apt install -y jq
+
+      - name: Check existing jobs
+        run: |
+            bash ./util/deploy/deploy.sh --dep_type "jobs" --dtb_path "${{ inputs.databricks_code_path }}" --dtb_file "${{ inputs.service_code_file }}"
