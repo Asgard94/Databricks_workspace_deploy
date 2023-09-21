@@ -126,7 +126,7 @@ function job_deploy(){
         var_name=$(jq -r '.name' <<< "$js_object")
 
         echo "Item: $var_name"
-
+        echo "job definition: $js_object"
         job_check -n $var_name -d $js_object
     done
     echo "########## End of job deployment ##########"
