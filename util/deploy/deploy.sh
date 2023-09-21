@@ -67,17 +67,27 @@ function job_create_update(){
     do 
         case $1 in
             -s|--size)id_size="$2"; shift;;
+            -d|--def)job_definition="$2"; shift;;
         esac
         shift
     done
+
+    if [ $id_size -eq 0]; then
+        echo "Creating the job"
+    elif [ $id_size -eq 1 ]; then
+        echo "Updating the job"
+    else
+        echo "Multiple jobs with same name. Please verify"
+    fi
 }
 
+########## Check existing jobs by given name ##########
 function job_check(){
-    echo "########## Check existing jobs by given name ##########"
     while [[ "$#" -gt 0 ]]
     do 
         case $1 in
             -n|--name)job_name="$2"; shift;;
+            -d|--def)job_definition="$2"; shift;;
         esac
         shift
     done
@@ -104,7 +114,7 @@ function job_check(){
         done
     fi
 
-    echo "${#id_array[@]}"
+    job_create_update -s ${#id_array[@]} -d $job_definition
 }
 
 function job_deploy(){
@@ -115,7 +125,7 @@ function job_deploy(){
 
         echo "Item: $var_name"
 
-        job_check -n $var_name
+        job_check -n $var_name -d $js_object
 
         echo "job def: $js_object"
     done
