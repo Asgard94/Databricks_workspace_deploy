@@ -81,10 +81,9 @@ function job_check(){
     echo "########## Verify if job exists based on name ##########"
     curl -H "Authorization: Bearer ${databricks_token}" "${databricks_host}/api/2.1/jobs/list?name=${job_name}" > jobslist.txt
     var_exist=$(cat jobslist.txt | jq '.jobs[0].job_id')
-
+    echo $var_exist
     id_array=()
-    if [ -z "$var_exist" ]
-    then
+    if [ -z "$var_exist" ]; then
         echo "Job does not exist. Proceeding to create it"
     else
         id_array=$(cat jobslist.txt | jq '.jobs[] |.job_id')
