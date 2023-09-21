@@ -104,7 +104,7 @@ function job_deploy(){
 
         echo "Item: $var_name"
 
-        read -r id_array <<< job_check -n $var_name
+        read -r id_array <<< $(job_check -n $var_name)
         echo "ID Array = $id_array"
     done
     echo "########## End of job deployment ##########"
