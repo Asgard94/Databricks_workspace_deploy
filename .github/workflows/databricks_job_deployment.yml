@@ -68,5 +68,4 @@ jobs:
 
       - name: Check existing jobs
         run: |
-            bash ./util/deploy/deploy.sh --dep_type "jobs" --dtb_path "${{ inputs.databricks_code_path }}" --dtb_file "${{ inputs.service_code_file }}" --dtb_host "${{ secrets.DATABRICKS_HOST }}"
-            --dtb_token "${{ secrets.DATABRICKS_TOKEN }}"
+            bash ./util/deploy/deploy.sh --dep_type "jobs" --dtb_path "${{ inputs.databricks_code_path }}" --dtb_file "${{ inputs.service_code_file }}" --dtb_host "${{ secrets.DATABRICKS_HOST }}" --dtb_token "${{ secrets.DATABRICKS_TOKEN }}"
