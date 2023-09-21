@@ -81,7 +81,7 @@ function job_check(){
     echo "########## Verify if job exists based on name ##########"
     curl -H "Authorization: Bearer ${databricks_token}" "${databricks_host}/api/2.1/jobs/list?name=${job_name}" > jobslist.txt
     var_exist=$(cat jobslist.txt | jq '.jobs[0].job_id')
-    echo $var_exist
+
     id_array=()
     if [ "$var_exist" = "null" ]; then
         echo "Job does not exist. Proceeding to create it"
@@ -92,6 +92,8 @@ function job_check(){
         echo "Job Id: $value"
         done
     fi
+
+    echo "${#id_array[@]}"
 }
 
 function job_deploy(){
@@ -102,7 +104,8 @@ function job_deploy(){
 
         echo "Item: $var_name"
 
-        job_check -n $var_name
+        read -r id_array <<< job_check -n $var_name
+        echo "ID Array = $id_array"
     done
     echo "########## End of job deployment ##########"
 }
