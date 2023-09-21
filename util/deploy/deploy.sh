@@ -74,6 +74,7 @@ function job_create_update(){
 
     if [ $id_size -eq 0 ]; then
         echo "Creating the job"
+        databricks jobs create --json $job_definition
     elif [ $id_size -eq 1 ]; then
         echo "Updating the job"
     else
