@@ -72,7 +72,7 @@ function job_create_update(){
         shift
     done
 
-    if [ $id_size -eq 0]; then
+    if [ $id_size -eq 0 ]; then
         echo "Creating the job"
     elif [ $id_size -eq 1 ]; then
         echo "Updating the job"
