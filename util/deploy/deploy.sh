@@ -10,6 +10,8 @@ do
         --dep_type)deploy_type="$2"; shift;;
         --dtb_path)databricks_code_path="$2"; shift;;
         --dtb_file)service_code_file="$2"; shift;;
+        --dtb_host)databricks_host="$2"; shift;;
+        --dtb_token)databricks_token="$2"; shift;;
     esac
     shift
 done
@@ -58,9 +60,70 @@ function code_deploy(){
     echo "########## End of code deployment ##########"
 }
 
+########### Check and Deploy new/existing jobs ###########
+function job_check(){
+    while [[ "$#" -gt 0 ]]
+    do 
+        case $1 in
+            -n|--name)job_name="$2"; shift;;
+        esac
+        shift
+    done
+
+    #echo "########## Listing current jobs ##########"
+    #var_jobs=$(databricks jobs list)
+    #for value in "${var_jobs[@]}"
+    #do
+    #echo "Job Name: $value"
+    #done
+
+    echo "########## Verify if job exists based on name ##########"
+    curl -H "Authorization: Bearer ${databricks_token}" "${databricks_host}/api/2.1/jobs/list?name=${job_name}" > jobslist.txt
+    var_exist=$(cat jobslist.txt | jq '.jobs[0].job_id')
+
+    id_array=()
+    if [ "$var_exist" = "null" ]; then
+        echo "Job does not exist. Proceeding to create it"
+    else
+        id_array=$(cat jobslist.txt | jq '.jobs[] |.job_id')
+        for value in "${id_array[@]}"
+        do
+        echo "Job Id: $value"
+        done
+    fi
+
+    id_size=${#id_array[@]}
+}
+
+function job_deploy(){
+    echo "########## Initiating job deployment ##########"
+    # Iterate over json array from config file
+    jq -c -r '.[]' $file | while read js_object; do 
+        var_name=$(jq -r '.name' <<< "$js_object")
+
+        echo "Item: $var_name"
+        echo "$js_object" > job_def.json
+
+        job_check -n $var_name
+
+        if [ $id_size -eq 0 ]; then
+            echo "Creating the job"
+            databricks jobs create --json-file job_def.json
+        elif [ $id_size -eq 1 ]; then
+            echo "Updating the job"
+            databricks jobs reset --job-id ${id_array[0]} --json-file job_def.json
+        else
+            echo "Multiple jobs with same name. Please verify"
+        fi
+        done
+    echo "########## End of job deployment ##########"
+}
+
 ########### Call a function according to deploy type parameter ###########
 if [ "$deploy_type" = "code" ]; then
     code_deploy
+elif [ "$deploy_type" = "jobs" ]; then
+    job_deploy
 else
     workspace_deploy
 fi
