@@ -71,16 +71,6 @@ function job_create_update(){
         esac
         shift
     done
-
-    if [ $id_size -eq 0 ]; then
-        echo "Creating the job"
-        echo "JOB DEF: $job_definition"
-        databricks jobs create --json $job_definition
-    elif [ $id_size -eq 1 ]; then
-        echo "Updating the job"
-    else
-        echo "Multiple jobs with same name. Please verify"
-    fi
 }
 
 ########## Check existing jobs by given name ##########
@@ -89,7 +79,6 @@ function job_check(){
     do 
         case $1 in
             -n|--name)job_name="$2"; shift;;
-            -d|--def)job_definition="$2"; shift;;
         esac
         shift
     done
@@ -116,7 +105,7 @@ function job_check(){
         done
     fi
 
-    job_create_update -s "${#id_array[@]}" -d $job_definition
+    id_size=${#id_array[@]}
 }
 
 function job_deploy(){
@@ -127,8 +116,18 @@ function job_deploy(){
 
         echo "Item: $var_name"
         echo "job definition: $js_object"
-        job_check -n $var_name -d $js_object
-    done
+        job_check -n $var_name
+        echo $id_size
+
+        if [ $id_size -eq 0 ]; then
+            echo "Creating the job"
+            databricks jobs create --json $js_object
+        elif [ $id_size -eq 1 ]; then
+            echo "Updating the job"
+        else
+            echo "Multiple jobs with same name. Please verify"
+        fi
+        done
     echo "########## End of job deployment ##########"
 }
 
