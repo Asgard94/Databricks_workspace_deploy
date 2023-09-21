@@ -10,6 +10,8 @@ do
         --dep_type)deploy_type="$2"; shift;;
         --dtb_path)databricks_code_path="$2"; shift;;
         --dtb_file)service_code_file="$2"; shift;;
+        --dtb_host)databricks_host="$2"; shift;;
+        --dtb_token)databricks_token="$2"; shift;;
     esac
     shift
 done
@@ -69,11 +71,14 @@ function job_check(){
         shift
     done
 
-    var_jobs=$(databricks jobs get --job-name $job_name)
+    var_jobs=$(databricks jobs list)
     for value in "${var_jobs[@]}"
     do
     echo "Job Name: $value"
     done
+
+    curl  -H "Authorization: Bearer ${databricks_token}" "${databricks_host}/api/2.1/jobs/list?name=${job_name}" > jobslist.txt
+    cat  jobslist.txt | jq '.jobs[0].job_id'
 }
 
 function job_deploy(){
