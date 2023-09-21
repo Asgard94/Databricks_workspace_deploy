@@ -61,6 +61,17 @@ function code_deploy(){
 }
 
 ########### Check and Deploy new/existing jobs ###########
+function job_create_update(){
+    echo "########## Check if job is new or not ##########"
+    while [[ "$#" -gt 0 ]]
+    do 
+        case $1 in
+            -s|--size)id_size="$2"; shift;;
+        esac
+        shift
+    done
+}
+
 function job_check(){
     echo "########## Check existing jobs by given name ##########"
     while [[ "$#" -gt 0 ]]
@@ -105,6 +116,8 @@ function job_deploy(){
         echo "Item: $var_name"
 
         job_check -n $var_name
+
+        echo "job def: $js_object"
     done
     echo "########## End of job deployment ##########"
 }
