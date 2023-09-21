@@ -71,14 +71,28 @@ function job_check(){
         shift
     done
 
+    echo "########## Listing current jobs ##########"
     var_jobs=$(databricks jobs list)
     for value in "${var_jobs[@]}"
     do
     echo "Job Name: $value"
     done
 
+    echo "########## Verify if job exists based on name ##########"
     curl -H "Authorization: Bearer ${databricks_token}" "${databricks_host}/api/2.1/jobs/list?name=${job_name}" > jobslist.txt
-    cat  jobslist.txt | jq '.jobs[0].job_id'
+    var_exist=$(cat jobslist.txt | jq '.jobs[0].job_id')
+
+    id_array=()
+    if [ -z "$var_exist" ]
+    then
+        echo "Job does not exist. Proceeding to create it"
+    else
+        id_array=$(cat jobslist.txt | jq '.jobs[] |.job_id')
+        for value in "${id_array[@]}"
+        do
+        echo "Job Id: $value"
+        done
+    fi
 }
 
 function job_deploy(){
