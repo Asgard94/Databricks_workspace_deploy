@@ -39,26 +39,6 @@ on:
       DATABRICKS_TOKEN:
         description: 'Access token for Databricks CLI'
         required: true
-  
-  workflow_dispatch:
-    inputs:
-      databricks_code_path:
-        description: Databricks Service Path
-        type: string
-        required: true
-      
-      service_code_file:
-        description: code file path
-        type: string
-        required: true
-    
-    secrets:
-      DATABRICKS_HOST:
-        description:   'Databricks workspace URL'
-        required: true
-      DATABRICKS_TOKEN:
-        description: 'Access token for Databricks CLI'
-        required: true
 
 jobs:
   push_to_db:
