@@ -124,7 +124,7 @@ function job_deploy(){
             databricks jobs create --json-file job_def.json
         elif [ $id_size -eq 1 ]; then
             echo "Updating the job"
-            databricks jobs reset --job-id ${id_size[0]} --json-file job_def.json
+            databricks jobs reset --job-id ${id_array[0]} --json-file job_def.json
         else
             echo "Multiple jobs with same name. Please verify"
         fi
