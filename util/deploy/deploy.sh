@@ -83,7 +83,7 @@ function job_check(){
     var_exist=$(cat jobslist.txt | jq '.jobs[0].job_id')
     echo $var_exist
     id_array=()
-    if [ -z "$var_exist" ]; then
+    if [ "$var_exist" = "null" ]; then
         echo "Job does not exist. Proceeding to create it"
     else
         id_array=$(cat jobslist.txt | jq '.jobs[] |.job_id')
