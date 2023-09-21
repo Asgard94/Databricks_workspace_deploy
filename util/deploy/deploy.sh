@@ -115,13 +115,14 @@ function job_deploy(){
         var_name=$(jq -r '.name' <<< "$js_object")
 
         echo "Item: $var_name"
-        echo "job definition: $js_object"
+        echo "$js_object" > job_def.json
+        cat job_def.json
         job_check -n $var_name
         echo $id_size
 
         if [ $id_size -eq 0 ]; then
             echo "Creating the job"
-            databricks jobs create --json $js_object
+            databricks jobs create --json-file job_def.json
         elif [ $id_size -eq 1 ]; then
             echo "Updating the job"
         else
