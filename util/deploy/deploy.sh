@@ -61,19 +61,6 @@ function code_deploy(){
 }
 
 ########### Check and Deploy new/existing jobs ###########
-function job_create_update(){
-    echo "########## Check if job is new or not ##########"
-    while [[ "$#" -gt 0 ]]
-    do 
-        case $1 in
-            -s|--size)id_size="$2"; shift;;
-            -d|--def)job_definition="$2"; shift;;
-        esac
-        shift
-    done
-}
-
-########## Check existing jobs by given name ##########
 function job_check(){
     while [[ "$#" -gt 0 ]]
     do 
@@ -83,12 +70,12 @@ function job_check(){
         shift
     done
 
-    echo "########## Listing current jobs ##########"
-    var_jobs=$(databricks jobs list)
-    for value in "${var_jobs[@]}"
-    do
-    echo "Job Name: $value"
-    done
+    #echo "########## Listing current jobs ##########"
+    #var_jobs=$(databricks jobs list)
+    #for value in "${var_jobs[@]}"
+    #do
+    #echo "Job Name: $value"
+    #done
 
     echo "########## Verify if job exists based on name ##########"
     curl -H "Authorization: Bearer ${databricks_token}" "${databricks_host}/api/2.1/jobs/list?name=${job_name}" > jobslist.txt
