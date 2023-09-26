@@ -2,11 +2,11 @@
     {
         "action": "deploy",
         "job_name": "Slack_alert_job_01",
-        "local_file_path": "./src/deploy/worklows/connector_01/slack_job_01.json"
+        "local_file_path": "./src/deploy/workflows/connector_01/slack_job_01.json"
     },
     {
         "action": "deploy",
         "job_name": "Slack_alert_job_02",
-        "local_file_path": "./src/deploy/worklows/connector_02/slack_job_02.json"
+        "local_file_path": "./src/deploy/workflows/connector_02/slack_job_02.json"
     }
 ]
