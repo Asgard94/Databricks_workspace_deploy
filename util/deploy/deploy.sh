@@ -119,11 +119,36 @@ function job_deploy(){
     echo "########## End of job deployment ##########"
 }
 
+function job_deploy_dir(){
+    echo "########## Initiating job deployment ##########"
+    # Iterate over json array from config file
+    jq -c -r '.[]' $file | while read js_object; do 
+        var_job_name=$(jq -r '.job_name' <<< "$js_object")
+        var_file_path=$(jq -r '.local_file_path' <<< "$js_object")
+
+        echo "Item: $var_job_name"
+
+        job_check -n $var_job_name
+
+        if [ $id_size -eq 0 ]; then
+            echo "Creating the job"
+            databricks jobs create --json-file $var_file_path
+        elif [ $id_size -eq 1 ]; then
+            echo "Updating the job"
+            databricks jobs reset --job-id ${id_array[0]} --json-file $var_file_path
+        else
+            echo "Multiple jobs with same name. Please verify"
+        fi
+        done
+    echo "########## End of job deployment ##########"
+}
+
 ########### Call a function according to deploy type parameter ###########
 if [ "$deploy_type" = "code" ]; then
     code_deploy
 elif [ "$deploy_type" = "jobs" ]; then
-    job_deploy
+    #job_deploy
+    job_deploy_dir
 else
     workspace_deploy
 fi

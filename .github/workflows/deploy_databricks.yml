@@ -20,8 +20,10 @@ jobs:
     name: Deploy jobs
     uses: ./.github/workflows/databricks_job_deployment.yml
     with:
-      databricks_code_path: "./util/deploy/jobs"
-      service_code_file: "job.json"
+      #databricks_code_path: "./util/deploy/jobs"
+      #service_code_file: "job.json"
+      databricks_code_path: "./util/deploy"
+      service_code_file: "workflows.json"
     secrets:
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
