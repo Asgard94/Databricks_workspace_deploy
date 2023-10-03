@@ -54,8 +54,8 @@
                     "ebs_volume_count": 3,
                     "ebs_volume_size": 100
                 },
-                "node_type_id": "m4.2xlarge",
-                "driver_node_type_id": "m4.2xlarge",
+                "node_type_id": "m4.xlarge",
+                "driver_node_type_id": "m4.xlarge",
                 "custom_tags": {
                     "ResourceClass": "SingleNode"
                 },
